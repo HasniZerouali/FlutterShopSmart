@@ -1,6 +1,10 @@
 import 'dart:developer';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_users/models/product_model.dart';
+import 'package:shopsmart_users/providers/product_provider.dart';
+import 'package:shopsmart_users/providers/theme_provider.dart';
 import 'package:shopsmart_users/services/assets_manager.dart';
 import 'package:shopsmart_users/widgets/products/product_widget.dart';
 import 'package:shopsmart_users/widgets/title_text.dart';
@@ -32,6 +36,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // nasta3mil l provider
+    final productProvider = Provider.of<ProductProvider>(context);
     return GestureDetector(
       // dirha wla dir InkWell bach bach min tadrak 3la khwa yagla3 keybord ta3 textfield
       onTap: () {
@@ -58,6 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   controller: searchTextController,
                   //bach min tadrak 3la khwa yagla3 keybord
                   decoration: InputDecoration(
+                    hintText: "Search",
                     prefixIcon: GestureDetector(
                       onTap: () {},
                       child: const Icon(Icons.search),
@@ -90,9 +97,22 @@ class _SearchScreenState extends State<SearchScreen> {
                     shrinkWrap:
                         true, //dir hado wla dirha fi expanded + column fi SingleChildScrollView
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 20,
+                    // itemCount: ProductModel.localProds.length,
+                    itemCount: productProvider.getProducts.length,
                     builder: ((context, index) {
-                      return const ProductWidget();
+                      return ChangeNotifierProvider.value(
+                        // hadi tarika lawla bsh haka tatmacha ri fal searchscreen bsh matl3ch fal wishlis w ..
+                        //  lazam ykon fal paren lisiner, yatsama3 3la tarayorat (lal productModel)
+                        // haka mastakhdamnach constructor
+
+                        value: productProvider.getProducts[index],
+                        child: ProductWidget(
+                          productId: productProvider.getProducts[index].productId,
+                            // image: ProductModel.localProds[index].productImage,
+                            // image: productProvider.getProducts[index].productImage,
+                            //  tagla3 paramter li fal constructur (hadi hiya faydat provider tasta3amlah bla matmarar l9iyam fal constructor)
+                            ),
+                      );
                     }),
                     crossAxisCount: 2,
                   ),

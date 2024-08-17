@@ -71,8 +71,9 @@ class CartWidget extends StatelessWidget {
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-                            side:
-                                const BorderSide(width: 1, color: Colors.blue),
+                            side: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 165, 144, 218)),
                           ),
                           onPressed: () async {
                             await showModalBottomSheet(
@@ -90,11 +91,13 @@ class CartWidget extends StatelessWidget {
                           },
                           label: const Text(
                             "Qty: 6",
-                            style: TextStyle(color: Colors.blue),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 165, 144, 218),
+                                fontWeight: FontWeight.bold),
                           ),
                           icon: const Icon(
                             IconlyLight.arrow_down_2,
-                            color: Colors.blue,
+                            color: Color.fromARGB(255, 165, 144, 218),
                           ),
                         ),
                       ],

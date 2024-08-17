@@ -89,7 +89,9 @@ class MyAppMethods {
                   onPressed: () {
                     cameraFCT();
                     if (Navigator.canPop(context)) {
+                      //ida kont najm narja3 lal scren li kbalha(m3naha ni fal dialog)
                       Navigator.pop(context);
+                      //bach min user yakhrar photo wywali nagla3 dialog
                     }
                   },
                   icon: const Icon(Icons.camera),

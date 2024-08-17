@@ -9,7 +9,7 @@ class ViewedRecentlyScreen extends StatelessWidget {
   const ViewedRecentlyScreen({super.key});
   static const routName = '/ViewedRecentlyScreen';
 
-  final bool isEmpty = true;
+  final bool isEmpty = false;
   @override
   Widget build(BuildContext context) {
     return isEmpty
@@ -44,7 +44,9 @@ class ViewedRecentlyScreen extends StatelessWidget {
             body: DynamicHeightGridView(
               itemCount: 20,
               builder: ((context, index) {
-                return const ProductWidget();
+                return const ProductWidget(
+                  productId: "",
+                );
               }),
               crossAxisCount: 2,
             ),

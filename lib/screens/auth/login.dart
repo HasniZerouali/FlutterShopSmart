@@ -6,6 +6,7 @@ import 'package:iconly/iconly.dart';
 import 'package:shopsmart_users/constants/app_colors.dart';
 import 'package:shopsmart_users/constants/my_validators.dart';
 import 'package:shopsmart_users/root_screen.dart';
+import 'package:shopsmart_users/screens/auth/forgot_password.dart';
 import 'package:shopsmart_users/screens/auth/register.dart';
 import 'package:shopsmart_users/screens/home_screen.dart';
 import 'package:shopsmart_users/services/my_app_method.dart';
@@ -170,7 +171,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, RootScreen.routName);
+                            Navigator.pushNamed(
+                                context, ForgotPasswordScreen.routeName);
                           },
                           child: SubtitleTextWidget(
                             label: "Forgot password",
@@ -253,7 +255,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                     onPressed: () async {
-                                      _loginFct();
+                                      Navigator.pushNamed(
+                                          context, RootScreen.routName);
                                     },
                                   ),
                                 ),

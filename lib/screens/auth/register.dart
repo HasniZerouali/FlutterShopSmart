@@ -80,13 +80,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     // final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
-    if (_pickedImage == null) {
-      MyAppMethods.showErrorORWarningDialog(
-        context: context,
-        subtitle: "Make sure to pick up an image",
-        fct: () {},
-      );
-      return;
+    if (isValid) {
+      if (_pickedImage == null) {
+        MyAppMethods.showErrorORWarningDialog(
+          context: context,
+          subtitle: "Make sure to pick up an image",
+          fct: () {},
+        );
+      }
     }
   }
 
@@ -100,7 +101,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
       galleryFCT: () async {
         _pickedImage = await picker.pickImage(source: ImageSource.gallery);
-        setState(() {});
+        setState(() {
+          // tnajam dirha hna: _pickedImage = await picker.pickImage(source: ImageSource.gallery); watzid async
+        });
       },
       removeFCT: () {
         setState(() {
@@ -273,7 +276,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               value: value, password: _passwordController.text);
                         },
                         onFieldSubmitted: (value) {
-                          // _registerFct();
+                          _registerFct();
                         },
                       ),
                       const SizedBox(

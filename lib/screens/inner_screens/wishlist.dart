@@ -9,7 +9,7 @@ class WishlistScreen extends StatelessWidget {
   const WishlistScreen({super.key});
   static const routName = '/WishlistScreen';
 
-  final bool isEmpty = true;
+  final bool isEmpty = false;
   @override
   Widget build(BuildContext context) {
     return isEmpty
@@ -44,7 +44,9 @@ class WishlistScreen extends StatelessWidget {
             body: DynamicHeightGridView(
               itemCount: 20,
               builder: ((context, index) {
-                return const ProductWidget();
+                return const ProductWidget(
+                  productId: "",
+                );
               }),
               crossAxisCount: 2,
             ),

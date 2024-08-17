@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -31,8 +30,9 @@ class PickImageWidget extends StatelessWidget {
                     ),
                   )
                 : Image.file(
+                    //tadi 9ima type File lihada nhawlo pickedImage la type File khtrch howa XFile
                     File(
-                      pickedImage!.path,
+                      pickedImage!.path, //tadi path ta3 file
                     ),
                     fit: BoxFit.fill,
                   ),
@@ -46,9 +46,9 @@ class PickImageWidget extends StatelessWidget {
             // color: const Color(0xFF9c27b0),
             color: themeProvider.getIsDarkTheme
                 ? const Color(0xFF9c27b0)
-                : Color.fromARGB(255, 190, 59, 213),
+                : const Color.fromARGB(255, 188, 147, 232),
             child: InkWell(
-              splashColor: const Color.fromARGB(255, 244, 54, 171),
+              splashColor: Color.fromARGB(255, 244, 59, 232),
               borderRadius: BorderRadius.circular(16.0),
               onTap: () {
                 function();
@@ -56,7 +56,7 @@ class PickImageWidget extends StatelessWidget {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(
-                  Icons.add_shopping_cart_rounded,
+                  Icons.add_a_photo_outlined,
                   size: 20,
                   // color: Colors.white,
                 ),

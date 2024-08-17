@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shopsmart_users/providers/theme_provider.dart';
 import 'package:shopsmart_users/root_screen.dart';
 import 'package:shopsmart_users/screens/auth/login.dart';
+import 'package:shopsmart_users/screens/inner_screens/orders/orders_screen.dart';
 import 'package:shopsmart_users/screens/inner_screens/viewed_recently.dart';
 import 'package:shopsmart_users/screens/inner_screens/wishlist.dart';
 import 'package:shopsmart_users/services/assets_manager.dart';
@@ -88,7 +89,10 @@ class ProfileScreen extends StatelessWidget {
                   const TitlesTextWidget(label: "General"),
                   CustomListTile(
                     imagePath: AssetsManager.orderSvg,
-                    function: () {},
+                    function: () async {
+                      await Navigator.pushNamed(
+                          context, OrdersScreenFree.routeName);
+                    },
                     text: "All orders",
                   ),
                   CustomListTile(
@@ -152,16 +156,18 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.login),
                 onPressed: () async {
-                  await MyAppMethods.showErrorORWarningDialog(
-                    context: context,
-                    subtitle: "Are you sur",
-                    isError: false,
-                    fct: () {
-                      // Navigator.pop(context);
-                      // Navigator.pushNamed(context, LoginScreen.routName);
-                      Navigator.pushNamed(context, LoginScreen.routName);
-                    },
-                  );
+                  await Navigator.pushReplacementNamed(context, LoginScreen.routName);
+
+                  // await MyAppMethods.showErrorORWarningDialog(
+                  //   context: context,
+                  //   subtitle: "Are you sur",
+                  //   isError: false,
+                  //   fct: ()  {
+                  //     // Navigator.pop(context);
+                  //     // Navigator.pushNamed(context, LoginScreen.routName);
+                  //     Navigator.pushNamed(context, LoginScreen.routName);
+                  //   },
+                  // );
                 },
               ),
             )
