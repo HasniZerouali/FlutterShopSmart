@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_users/constants/app_constants.dart';
 import 'package:shopsmart_users/models/product_model.dart';
+import 'package:shopsmart_users/providers/cart_provider.dart';
 import 'package:shopsmart_users/providers/product_provider.dart';
 import 'package:shopsmart_users/providers/theme_provider.dart';
+import 'package:shopsmart_users/providers/viewed_prod_provider.dart';
 import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
 import 'package:shopsmart_users/widgets/products/heart_btn.dart';
 import 'package:shopsmart_users/widgets/subtitle_text.dart';
@@ -33,8 +35,10 @@ class _ProductWidgetState extends State<ProductWidget> {
   Widget build(BuildContext context) {
     // final productModelProvider = Provider.of<ProductModel>(context);
     final productProvider = Provider.of<ProductProvider>(context);
-
+// hna madarnach bal ProductModel malgri khdamna ri wahda (khdamna ri b getCurrProduct)machi list khatarch khdamna bal list ta3 Cart tama min 3ayatna l hadi widget ma3ayatnalhach bal .value
     final getCurrProduct = productProvider.findByProdId(widget.productId);
+    final cartProvider = Provider.of<CartProvider>(context);
+    final viewedProdProvider = Provider.of<ViewedProdProvider>(context);
 
     Size size = MediaQuery.of(context).size;
     return getCurrProduct == null
@@ -44,7 +48,13 @@ class _ProductWidgetState extends State<ProductWidget> {
             child: GestureDetector(
               onTap: () async {
                 // liana typ ta3 pushNamed Fututr dir async await
-                await Navigator.pushNamed(context, ProductDetails.routName);
+                viewedProdProvider.addProductToHistory(
+                    productId: getCurrProduct.productId);
+                await Navigator.pushNamed(
+                  context,
+                  ProductDetails.routName,
+                  arguments: getCurrProduct.productId,
+                );
               },
               child: Column(
                 children: [
@@ -58,6 +68,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                       //dart ?? ma3naha id image==null tawari hadi taswira
                       width: double.infinity,
                       height: size.height * 0.22,
+                      boxFit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -71,9 +82,11 @@ class _ProductWidgetState extends State<ProductWidget> {
                           maxLines: 2,
                         ),
                       ),
-                      const Flexible(
+                      Flexible(
                         flex: 2,
-                        child: HeartButtonWidget(),
+                        child: HeartButtonWidget(
+                          productId: getCurrProduct.productId,
+                        ),
                       )
                     ],
                   ),
@@ -95,11 +108,23 @@ class _ProductWidgetState extends State<ProductWidget> {
                             color: Color.fromARGB(255, 176, 147, 250),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(16),
-                              onTap: () {},
-                              child: const Padding(
+                              onTap: () {
+                                // setState(() {}); fiblasatha nzido fal "class CartProvider" notifyListenners bach natsama3 3la tarayorat w nmodifi screen min tatrayar
+                                if (cartProvider.isProductInCart(
+                                    productId: getCurrProduct.productId)) {
+                                  return;
+                                }
+
+                                cartProvider.addProductToCart(
+                                    productId: getCurrProduct.productId);
+                              },
+                              child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Icon(
-                                  Icons.add_shopping_cart_rounded,
+                                  cartProvider.isProductInCart(
+                                          productId: getCurrProduct.productId)
+                                      ? Icons.check
+                                      : Icons.add_shopping_cart_rounded,
                                   size: 20,
                                 ),
                               ),

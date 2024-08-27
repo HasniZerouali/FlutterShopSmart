@@ -1,6 +1,10 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopsmart_users/constants/app_constants.dart';
+import 'package:shopsmart_users/models/product_model.dart';
+import 'package:shopsmart_users/providers/cart_provider.dart';
+import 'package:shopsmart_users/providers/viewed_prod_provider.dart';
 import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
 import 'package:shopsmart_users/widgets/products/heart_btn.dart';
 import 'package:shopsmart_users/widgets/subtitle_text.dart';
@@ -10,6 +14,9 @@ class LatestArrivalProductsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productModel = Provider.of<ProductModel>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+    final viewedProdProvider = Provider.of<ViewedProdProvider>(context);
     Size size = MediaQuery.of(context).size;
 
     return Padding(
@@ -17,7 +24,13 @@ class LatestArrivalProductsWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () async {
           // liana typ ta3 pushNamed Fututr dir async await
-          await Navigator.pushNamed(context, ProductDetails.routName);
+          viewedProdProvider.addProductToHistory(
+              productId: productModel.productId);
+          await Navigator.pushNamed(
+            context,
+            ProductDetails.routName,
+            arguments: productModel.productId,
+          );
         },
         child: SizedBox(
           width: size.width * 0.45,
@@ -29,9 +42,9 @@ class LatestArrivalProductsWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: FancyShimmerImage(
                     // color: Colors.red,
-                    imageUrl: AppConstants.productImageUrl,
+                    imageUrl: productModel.productImage,
                     width: size.height * 0.28,
-                    height: size.height * 0.28,
+                    height: size.height * 0.28, boxFit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -41,7 +54,7 @@ class LatestArrivalProductsWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "eeH" * 10,
+                      productModel.productTitle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -49,23 +62,35 @@ class LatestArrivalProductsWidget extends StatelessWidget {
                       //bach tagla3 barr safra "overflow" aw flexible
                       child: Row(
                         children: [
-                          const HeartButtonWidget(
+                          HeartButtonWidget(
+                            productId: productModel.productId,
                             size: 18,
                           ),
                           IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_shopping_cart_rounded,
+                            onPressed: () {
+                              if (cartProvider.isProductInCart(
+                                  productId: productModel.productId)) {
+                                return;
+                              }
+
+                              cartProvider.addProductToCart(
+                                  productId: productModel.productId);
+                            },
+                            icon: Icon(
+                              cartProvider.isProductInCart(
+                                      productId: productModel.productId)
+                                  ? Icons.check
+                                  : Icons.add_shopping_cart_rounded,
                               size: 18,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const FittedBox(
+                    FittedBox(
                       //bach maykonch kayen overflow
                       child: SubtitleTextWidget(
-                        label: "166.5\$",
+                        label: "${productModel.productPrice}\$",
                         color: Colors.blue,
                       ),
                     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:provider/provider.dart';
+import 'package:shopsmart_users/providers/cart_provider.dart';
 import 'package:shopsmart_users/screens/cart/cart_screen.dart';
 import 'package:shopsmart_users/screens/home_screen.dart';
 import 'package:shopsmart_users/screens/profile_screen.dart';
@@ -35,6 +37,8 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       body: PageView(
         controller: controller,
@@ -57,7 +61,7 @@ class _RootScreenState extends State<RootScreen> {
 
           controller.jumpToPage(currentScreen);
         },
-        destinations: const [
+        destinations: [
           NavigationDestination(
             selectedIcon: Icon(
               IconlyBold.home,
@@ -77,7 +81,7 @@ class _RootScreenState extends State<RootScreen> {
               IconlyBold.bag_2,
             ),
             icon: Badge(
-              label: Text("6"),
+              label: Text("${cartProvider.getCartItems.length}"),
               child: Icon(IconlyLight.bag_2),
             ),
             label: "Cart",

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shopsmart_users/constants/theme_data.dart';
+import 'package:shopsmart_users/providers/cart_provider.dart';
 import 'package:shopsmart_users/providers/product_provider.dart';
 import 'package:shopsmart_users/providers/theme_provider.dart';
+import 'package:shopsmart_users/providers/viewed_prod_provider.dart';
+import 'package:shopsmart_users/providers/wishlist_provider.dart';
 import 'package:shopsmart_users/root_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_users/screens/auth/forgot_password.dart';
@@ -12,6 +15,7 @@ import 'package:shopsmart_users/screens/inner_screens/orders/orders_screen.dart'
 import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
 import 'package:shopsmart_users/screens/inner_screens/viewed_recently.dart';
 import 'package:shopsmart_users/screens/inner_screens/wishlist.dart';
+import 'package:shopsmart_users/screens/search_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +39,21 @@ class MyApp extends StatelessWidget {
             return ProductProvider();
           },
         ), //haka sayi nwalo najmo natsam3o 3la provider
+         ChangeNotifierProvider(
+          create: (_) {
+            return CartProvider();
+          },
+        ),
+         ChangeNotifierProvider(
+          create: (_) {
+            return WishlistProvider();
+          },
+        ),
+         ChangeNotifierProvider(
+          create: (_) {
+            return ViewedProdProvider();
+          },
+        ),
       ],
 
       //Consumer min tkon widget wahda tatsama3 ela tarayoro=)
@@ -56,6 +75,7 @@ class MyApp extends StatelessWidget {
               "/login": (context) => const LoginScreen(),
               WishlistScreen.routName: (context) => const WishlistScreen(),
               LoginScreen.routName: (context) => const LoginScreen(),
+              SearchScreen.routeName: (context) => const SearchScreen(), 
               RootScreen.routName: (context) => const RootScreen(),
               OrdersScreenFree.routeName: (context) => const OrdersScreenFree(),
               ForgotPasswordScreen.routeName: (context) =>

@@ -12,7 +12,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   ProductModel? findByProdId(String productId) {
-    // nzido had fun bach tsa3adna tawali tmacha f ga3 screen wishlis , search 
+    // nzido had fun bach tsa3adna tawali tmacha f ga3 screen wishlis , search
     if (_product
         .where(
           (element) => element.productId == productId,
@@ -24,6 +24,25 @@ class ProductProvider with ChangeNotifier {
       (element) => element.productId == productId,
     );
     // firstWhere awal wahda ylakiha yraja3ha ,(element fiha l9iyam ta3 list _product)
+  }
+
+  List<ProductModel> findByCategory({required String ctgName}) {
+    List<ProductModel> ctgList = _product
+        .where((element) => element.productCategory
+            .toLowerCase()
+            .contains(ctgName.toLowerCase()))
+        .toList();
+    return ctgList;
+  }
+
+  List<ProductModel> searchQuery(
+      {required String searchText, required List<ProductModel> list}) {
+    List<ProductModel> searchList = list
+        .where((element) => element.productTitle
+            .toLowerCase()
+            .contains(searchText.toLowerCase()))
+        .toList();
+    return searchList;
   }
 
   final List<ProductModel> _product = [
@@ -109,17 +128,6 @@ class ProductProvider with ChangeNotifier {
           "https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111909_series7-480.png",
       productQuantity: "20",
     ),
-
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////
     ProductModel(
       productId: const Uuid().v4(),
       productTitle: "Samsung Galaxy Watch 4 - 44mm",

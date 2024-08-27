@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopsmart_users/constants/app_constants.dart';
+import 'package:shopsmart_users/providers/product_provider.dart';
 import 'package:shopsmart_users/services/assets_manager.dart';
 import 'package:shopsmart_users/widgets/app_name_text.dart';
 import 'package:shopsmart_users/widgets/products/ctg_rounded_widget.dart';
@@ -13,6 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final productProvider = Provider.of<ProductProvider>(context);
     // nasta3mil l provider
     // (context, listen: true) listen min dereh true ywali provider yatsama3
     // final themeProvider = Provider.of<ThemeProvider>(context);
@@ -73,9 +76,14 @@ class HomeScreen extends StatelessWidget {
                 height: size.height * 0.2,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: productProvider.getProducts.length,
                   itemBuilder: (context, index) {
-                    return const LatestArrivalProductsWidget();
+                    return ChangeNotifierProvider.value(
+                        value: productProvider.getProducts[index],
+                        //fi had screen min nasha9 ga3 listPruduct provider nakhadmo bal class Product Provider , wnmadu lproduct fal value lal class LatesAraival.. w fiha nakahdmo bal typ ta3 product li howa productModel 
+                        child: LatestArrivalProductsWidget(
+                          
+                        ));
                   },
                 ),
               ),
