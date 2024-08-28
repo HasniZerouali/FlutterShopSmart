@@ -80,10 +80,8 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return ChangeNotifierProvider.value(
                         value: productProvider.getProducts[index],
-                        //fi had screen min nasha9 ga3 listPruduct provider nakhadmo bal class Product Provider , wnmadu lproduct fal value lal class LatesAraival.. w fiha nakahdmo bal typ ta3 product li howa productModel 
-                        child: LatestArrivalProductsWidget(
-                          
-                        ));
+                        //fi had screen min nasha9 ga3 listPruduct provider nakhadmo bal class Product Provider , wnmadu lproduct fal value lal class LatesAraival.. w fiha nakahdmo bal typ ta3 product li howa productModel
+                        child: LatestArrivalProductsWidget());
                   },
                 ),
               ),
