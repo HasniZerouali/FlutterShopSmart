@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopsmart_users/constants/app_colors.dart';
@@ -35,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   bool _isLoading = false;
-
+  final auth = FirebaseAuth.instance;
   XFile? _pickedImage;
 
   String? userImageUrl;
@@ -87,6 +89,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
           subtitle: "Make sure to pick up an image",
           fct: () {},
         );
+      }
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+        //trim() ta9la3 space  mal awal aw l akhir
+        await auth.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+        Fluttertoast.showToast(
+          msg: "An account has been created",
+          toastLength: Toast.LENGTH_SHORT,
+          textColor: Colors.white,
+        );
+      } catch (error) {
+        MyAppMethods.showErrorORWarningDialog(
+          context: context,
+          subtitle: "An error has been occured $error",
+          fct: () {},
+        );
+      } finally //"finally" y3ayatalha min ykamal try wla error
+      {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -153,8 +180,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 25.0,
                 ),
                 SizedBox(
-                  height: size.width * 0.3,
-                  width: size.width * 0.3,
                   child: PickImageWidget(
                     pickedImage: _pickedImage,
                     function: () async {

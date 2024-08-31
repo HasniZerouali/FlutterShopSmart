@@ -13,6 +13,8 @@ class PickImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     // nasta3mil l provider
     // (context, listen: true) listen min dereh true ywali provider yatsama3
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -24,6 +26,8 @@ class PickImageWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             child: pickedImage == null
                 ? Container(
+                    height: size.width * 0.3,
+                    width: size.width * 0.3,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(color: Colors.grey),
@@ -34,7 +38,9 @@ class PickImageWidget extends StatelessWidget {
                     File(
                       pickedImage!.path, //tadi path ta3 file
                     ),
-                    fit: BoxFit.fill,
+                    // fit: BoxFit.fill,
+                    height: size.width * 0.3,
+                    alignment: Alignment.center,
                   ),
           ),
         ),
