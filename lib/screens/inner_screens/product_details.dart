@@ -5,6 +5,7 @@ import 'package:shopsmart_users/constants/app_constants.dart';
 import 'package:shopsmart_users/providers/cart_provider.dart';
 import 'package:shopsmart_users/providers/product_provider.dart';
 import 'package:shopsmart_users/providers/theme_provider.dart';
+import 'package:shopsmart_users/services/my_app_method.dart';
 import 'package:shopsmart_users/widgets/app_name_text.dart';
 import 'package:shopsmart_users/widgets/products/heart_btn.dart';
 import 'package:shopsmart_users/widgets/subtitle_text.dart';
@@ -97,7 +98,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              HeartButtonWidget(productId: getCurrProduct.productId,
+                              HeartButtonWidget(
+                                productId: getCurrProduct.productId,
                                 color: themeProvider.getIsDarkTheme
                                     ? Color.fromARGB(255, 110, 112, 246)
                                     : const Color(0xffc0e9fd),
@@ -117,15 +119,34 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(30))),
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      // if (cartProvider.isProductInCart(
+                                      //     productId:
+                                      //         getCurrProduct.productId)) {
+                                      //   return;
+                                      // }
+
+                                      // cartProvider.addProductToCart(
+                                      //     productId: getCurrProduct.productId);
                                       if (cartProvider.isProductInCart(
                                           productId:
                                               getCurrProduct.productId)) {
                                         return;
                                       }
 
-                                      cartProvider.addProductToCart(
-                                          productId: getCurrProduct.productId);
+                                      // cartProvider.addProductToCart(
+                                      //     productId: getCurrProduct.productId);
+                                      try {
+                                        await cartProvider.addToCartFirebase(
+                                            productId: getCurrProduct.productId,
+                                            qty: 1,
+                                            context: context);
+                                      } catch (errror) {
+                                        MyAppMethods.showErrorORWarningDialog(
+                                            context: context,
+                                            subtitle: errror.toString(),
+                                            fct: () {});
+                                      }
                                     },
                                     label: Text(
                                       cartProvider.isProductInCart(

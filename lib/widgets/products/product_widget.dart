@@ -8,6 +8,7 @@ import 'package:shopsmart_users/providers/product_provider.dart';
 import 'package:shopsmart_users/providers/theme_provider.dart';
 import 'package:shopsmart_users/providers/viewed_prod_provider.dart';
 import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
+import 'package:shopsmart_users/services/my_app_method.dart';
 import 'package:shopsmart_users/widgets/products/heart_btn.dart';
 import 'package:shopsmart_users/widgets/subtitle_text.dart';
 import 'package:shopsmart_users/widgets/title_text.dart';
@@ -108,15 +109,26 @@ class _ProductWidgetState extends State<ProductWidget> {
                             color: Color.fromARGB(255, 176, 147, 250),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(16),
-                              onTap: () {
+                              onTap: () async {
                                 // setState(() {}); fiblasatha nzido fal "class CartProvider" notifyListenners bach natsama3 3la tarayorat w nmodifi screen min tatrayar
                                 if (cartProvider.isProductInCart(
                                     productId: getCurrProduct.productId)) {
                                   return;
                                 }
 
-                                cartProvider.addProductToCart(
-                                    productId: getCurrProduct.productId);
+                                // cartProvider.addProductToCart(
+                                //     productId: getCurrProduct.productId);
+                                try {
+                                  await cartProvider.addToCartFirebase(
+                                      productId: getCurrProduct.productId,
+                                      qty: 1,
+                                      context: context);
+                                } catch (errror) {
+                                  MyAppMethods.showErrorORWarningDialog(
+                                      context: context,
+                                      subtitle: errror.toString(),
+                                      fct: () {});
+                                }
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),

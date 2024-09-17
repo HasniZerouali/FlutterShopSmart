@@ -41,8 +41,9 @@ class CartScreen extends StatelessWidget {
                       context: context,
                       subtitle: "Remove items",
                       isError: false,
-                      fct: () {
-                        cartProvider.clearLocalCart();
+                      fct: () async {
+                        await cartProvider.clearCartFromFirebase();
+                        // cartProvider.clearLocalCart();
                       },
                     );
                   },

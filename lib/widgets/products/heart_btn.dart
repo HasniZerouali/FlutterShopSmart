@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_users/providers/wishlist_provider.dart';
+import 'package:shopsmart_users/services/my_app_method.dart';
+import 'package:shopsmart_users/widgets/rotating_Indicator_widget.dart';
 
 class HeartButtonWidget extends StatefulWidget {
   const HeartButtonWidget({
@@ -19,6 +23,7 @@ class HeartButtonWidget extends StatefulWidget {
 }
 
 class _HeartButtonWidgetState extends State<HeartButtonWidget> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final wishlistProvider = Provider.of<WishlistProvider>(context);
@@ -30,23 +35,49 @@ class _HeartButtonWidgetState extends State<HeartButtonWidget> {
       ),
       child: IconButton(
         style: IconButton.styleFrom(shape: const CircleBorder()),
-        onPressed: () {
+        onPressed: () async {
+          // log("Wishlist map is : ${wishlistProvider.getWishlistItems}");
           setState(() {
-            wishlistProvider.addOrRemoveFromWishlist(
-                productId: widget.productId);
+            // wishlistProvider.addOrRemoveFromWishlist(
+            //     productId: widget.productId);
+            isLoading = true;
           });
+          try {
+            if (wishlistProvider.getWishlistItems
+                .containsKey(widget.productId)) {
+              wishlistProvider.removeWishlistItemFromFirebase(
+                productId: widget.productId,
+                wishlistId:
+                    wishlistProvider.getWishlistItems[widget.productId]!.id,
+              );
+            } else {
+              wishlistProvider.addToWishlistFirebase(
+                  productId: widget.productId, context: context);
+            }
+            await wishlistProvider.fetchWishlist();
+          } catch (error) {
+            MyAppMethods.showErrorORWarningDialog(
+                context: context, subtitle: error.toString(), fct: () {});
+          } finally {
+            setState(() {
+              isLoading = false;
+            });
+          }
         },
-        icon: Icon(
-          wishlistProvider.isProductInWishlist(productId: widget.productId)
-              ? IconlyBold.heart
-              : IconlyLight.heart,
-          size: widget.size,
-          color:
-              wishlistProvider.isProductInWishlist(productId: widget.productId)
-                  ? Colors.red
-                  : null, // Colors.grey or null
-          //ndiro widget.size khararch var size 3arafnah khareg l State fi StatfulWidget
-        ),
+        icon: isLoading
+            ? const RotatingProgressIndicator()
+            : Icon(
+                wishlistProvider.isProductInWishlist(
+                        productId: widget.productId)
+                    ? IconlyBold.heart
+                    : IconlyLight.heart,
+                size: widget.size,
+                color: wishlistProvider.isProductInWishlist(
+                        productId: widget.productId)
+                    ? Colors.red
+                    : null, // Colors.grey or null
+                //ndiro widget.size khararch var size 3arafnah khareg l State fi StatfulWidget
+              ),
       ),
     );
   }

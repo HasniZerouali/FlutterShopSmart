@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_users/providers/cart_provider.dart';
+import 'package:shopsmart_users/providers/product_provider.dart';
+import 'package:shopsmart_users/providers/wishlist_provider.dart';
 import 'package:shopsmart_users/screens/cart/cart_screen.dart';
 import 'package:shopsmart_users/screens/home_screen.dart';
 import 'package:shopsmart_users/screens/profile_screen.dart';
@@ -22,6 +26,7 @@ class _RootScreenState extends State<RootScreen> {
   //late ma3natha var radi yadi 9ima mn ba3d basur
   //kima fi hadi lhala  madinalah f initState()
   int currentScreen = 0;
+  bool _isLoadingProds = true;
   List<Widget> screens = [
     const HomeScreen(),
     const SearchScreen(),
@@ -34,6 +39,41 @@ class _RootScreenState extends State<RootScreen> {
     controller = PageController(initialPage: currentScreen);
     // rakalm page m selectionya
   } //function t3ayatalha awal matfot 3la had creen
+
+  Future<void> fetchFCT() async {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final wishlistProvider =
+        Provider.of<WishlistProvider>(context, listen: false);
+    try {
+      Future.wait(
+        {productProvider.fetchProducts()},
+      );
+      //futrue.wait lmlih fiha tnjm dir dkhal fiha ch3l mn whda wt9ara3lhom ga3 mchi balwahd  , hadi mliha bach tsara3lk l application
+      //  cart tasha9 9blha product  lihada ndiroha moraha min tkml , tbda ta3 cart
+      Future.wait({
+        cartProvider.fetchCart(),
+        wishlistProvider.fetchWishlist(),//ndiro wich hnaya khtrch ta3tamad 3la productProvider tama hata ykamal tbda hadi
+      });
+    } catch (error) {
+      log(error.toString());
+    } finally {
+      _isLoadingProds = false;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    //dartha hna w machi fi initState() khatrch hadi "didChangeDependencies" yat3ayatalha fal badya wtani kol mayasra tarayor
+    // TODO: implement didChangeDependencies
+    if (_isLoadingProds) {
+      //dartha f had if bach fct y3ayatalha ri khatra whda
+      fetchFCT();
+    }
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

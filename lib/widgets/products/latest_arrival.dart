@@ -6,6 +6,7 @@ import 'package:shopsmart_users/models/product_model.dart';
 import 'package:shopsmart_users/providers/cart_provider.dart';
 import 'package:shopsmart_users/providers/viewed_prod_provider.dart';
 import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
+import 'package:shopsmart_users/services/my_app_method.dart';
 import 'package:shopsmart_users/widgets/products/heart_btn.dart';
 import 'package:shopsmart_users/widgets/subtitle_text.dart';
 
@@ -67,14 +68,25 @@ class LatestArrivalProductsWidget extends StatelessWidget {
                             size: 18,
                           ),
                           IconButton(
-                            onPressed: () {
-                              if (cartProvider.isProductInCart(
-                                  productId: productModel.productId)) {
-                                return;
-                              }
+                            onPressed: () async{
+                            if (cartProvider.isProductInCart(
+                                    productId: productModel.productId)) {
+                                  return;
+                                }
 
-                              cartProvider.addProductToCart(
-                                  productId: productModel.productId);
+                                // cartProvider.addProductToCart(
+                                //     productId: getCurrProduct.productId);
+                                try {
+                                  await cartProvider.addToCartFirebase(
+                                      productId: productModel.productId,
+                                      qty: 1,
+                                      context: context);
+                                } catch (errror) {
+                                  MyAppMethods.showErrorORWarningDialog(
+                                      context: context,
+                                      subtitle: errror.toString(),
+                                      fct: () {});
+                                }
                             },
                             icon: Icon(
                               cartProvider.isProductInCart(

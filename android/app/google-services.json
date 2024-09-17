@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:869596593593:android:fd02a14272467f6907ca68",
+        "mobilesdk_app_id": "1:869596593593:android:f5602330d27e1c2e07ca68",
         "android_client_info": {
-          "package_name": "com.example.shopsmart_users"
+          "package_name": "com.example.shopsmart_admin"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "869596593593-b3orck9vrdsh0c236sh1dga7okqv6ml0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shopsmart_admin",
+            "certificate_hash": "6151d8f7eb6c4f821e9a85176a2487434460549b"
+          }
+        },
+        {
+          "client_id": "869596593593-htuc3a1plg9uv7avimck5d55ib0gttkc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDWg_RKT2t29C-dx6n9OXfS-2NU9uR4WuI"
@@ -20,7 +33,49 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869596593593-htuc3a1plg9uv7avimck5d55ib0gttkc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869596593593:android:fd02a14272467f6907ca68",
+        "android_client_info": {
+          "package_name": "com.example.shopsmart_users"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869596593593-709ih6tgahv1rcfvq36a1fc5u91o768h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shopsmart_users",
+            "certificate_hash": "6151d8f7eb6c4f821e9a85176a2487434460549b"
+          }
+        },
+        {
+          "client_id": "869596593593-htuc3a1plg9uv7avimck5d55ib0gttkc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWg_RKT2t29C-dx6n9OXfS-2NU9uR4WuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869596593593-htuc3a1plg9uv7avimck5d55ib0gttkc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

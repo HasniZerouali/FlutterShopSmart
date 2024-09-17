@@ -67,22 +67,30 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 18),
-              const TitlesTextWidget(
-                label: "Latest arrival",
-                fontSize: 22,
+              Visibility(
+                visible: productProvider.getProducts.isNotEmpty,
+                child: const TitlesTextWidget(
+                  label: "Latest arrival",
+                  fontSize: 22,
+                ),
               ),
               const SizedBox(height: 18),
-              SizedBox(
-                height: size.height * 0.2,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: productProvider.getProducts.length,
-                  itemBuilder: (context, index) {
-                    return ChangeNotifierProvider.value(
-                        value: productProvider.getProducts[index],
-                        //fi had screen min nasha9 ga3 listPruduct provider nakhadmo bal class Product Provider , wnmadu lproduct fal value lal class LatesAraival.. w fiha nakahdmo bal typ ta3 product li howa productModel
-                        child: LatestArrivalProductsWidget());
-                  },
+              Visibility(
+                visible: productProvider.getProducts.isNotEmpty,
+                child: SizedBox(
+                  height: size.height * 0.2,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: productProvider.getProducts.length < 10
+                        ? productProvider.getProducts.length
+                        : 10,
+                    itemBuilder: (context, index) {
+                      return ChangeNotifierProvider.value(
+                          value: productProvider.getProducts[index],
+                          //fi had screen min nasha9 ga3 listPruduct provider nakhadmo bal class Product Provider , wnmadu lproduct fal value lal class LatesAraival.. w fiha nakahdmo bal typ ta3 product li howa productModel
+                          child: LatestArrivalProductsWidget());
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 18),
