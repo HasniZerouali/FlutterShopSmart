@@ -36,12 +36,9 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        //zidd backgrond f them data
         centerTitle: true,
-        // automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            //zadt canPop bach lamkach haja 9balha matwalich "null"
             Navigator.canPop(context) ? Navigator.pop(context) : null;
           },
           icon: const Icon(
@@ -56,143 +53,114 @@ class _ProductDetailsState extends State<ProductDetails> {
       body: getCurrProduct == null
           ? const SizedBox.shrink()
           : SingleChildScrollView(
-              child: Column(
-                children: [
-                  //min image gaya mn internet ndiro FSImage khir
-                  FancyShimmerImage(
-                    imageUrl: getCurrProduct.productImage,
-                    height: size.height * 0.38,
-                    width: double.infinity,
-                    boxFit: BoxFit.contain,
-                    // errorWidget: , dirha f halat madahratch image
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 22, vertical: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FancyShimmerImage(
+                      imageUrl: getCurrProduct.productImage,
+                      height: size.height * 0.38,
+                      width: double.infinity,
+                      boxFit: BoxFit.cover,
+                      // You can add errorWidget here for graceful error handling.
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              // flex: 5,
-                              child: Text(
-                                getCurrProduct.productTitle,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const SizedBox(width: 13),
-                            SubtitleTextWidget(
-                              label: "${getCurrProduct.productPrice}\$",
-                              fontSize: 22,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 25),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              HeartButtonWidget(
-                                productId: getCurrProduct.productId,
-                                color: themeProvider.getIsDarkTheme
-                                    ? Color.fromARGB(255, 110, 112, 246)
-                                    : const Color(0xffc0e9fd),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: SizedBox(
-                                  height: kBottomNavigationBarHeight - 10,
-                                  child: ElevatedButton.icon(
-                                    style: ElevatedButton.styleFrom(
-                                        iconColor: const Color.fromARGB(
-                                            255, 146, 109, 250),
-                                        backgroundColor: themeProvider
-                                                .getIsDarkTheme
-                                            ? Color.fromARGB(255, 136, 97, 234)
-                                            : const Color(0xffeef4fa),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30))),
-                                    onPressed: () async {
-                                      // if (cartProvider.isProductInCart(
-                                      //     productId:
-                                      //         getCurrProduct.productId)) {
-                                      //   return;
-                                      // }
-
-                                      // cartProvider.addProductToCart(
-                                      //     productId: getCurrProduct.productId);
-                                      if (cartProvider.isProductInCart(
-                                          productId:
-                                              getCurrProduct.productId)) {
-                                        return;
-                                      }
-
-                                      // cartProvider.addProductToCart(
-                                      //     productId: getCurrProduct.productId);
-                                      try {
-                                        await cartProvider.addToCartFirebase(
-                                            productId: getCurrProduct.productId,
-                                            qty: 1,
-                                            context: context);
-                                      } catch (errror) {
-                                        MyAppMethods.showErrorORWarningDialog(
-                                            context: context,
-                                            subtitle: errror.toString(),
-                                            fct: () {});
-                                      }
-                                    },
-                                    label: Text(
-                                      cartProvider.isProductInCart(
-                                              productId:
-                                                  getCurrProduct.productId)
-                                          ? "In cart"
-                                          : "Add to cart",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                      // style: TextStyle(color: Colors.white),
-                                    ),
-                                    icon: Icon(
-                                      cartProvider.isProductInCart(
-                                              productId:
-                                                  getCurrProduct.productId)
-                                          ? Icons.check
-                                          : Icons.add_shopping_cart_rounded,
-                                      color: themeProvider.getIsDarkTheme
-                                          ? const Color(0xFFd0bcff)
-                                          : const Color(0xff6b55a6),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Flexible(
+                          child: Text(
+                            getCurrProduct.productTitle,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const SizedBox(height: 25),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const TitlesTextWidget(label: "About this item"),
-                            SubtitleTextWidget(
-                                label: "In ${getCurrProduct.productCategory}")
-                          ],
+                        const SizedBox(width: 13),
+                        HeartButtonWidget(
+                          productId: getCurrProduct.productId,
+                          color: themeProvider.getIsDarkTheme
+                              ? const Color.fromARGB(255, 110, 112, 246)
+                              : const Color(0xffc0e9fd),
                         ),
-                        const SizedBox(height: 25),
-                        SubtitleTextWidget(
-                            label: getCurrProduct.productDescription),
                       ],
                     ),
-                  )
-                ],
+                    const SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const TitlesTextWidget(label: "About this item"),
+                        SubtitleTextWidget(
+                            label: "In ${getCurrProduct.productCategory}")
+                      ],
+                    ),
+                    const SizedBox(height: 25),
+                    SubtitleTextWidget(
+                        label: getCurrProduct.productDescription),
+                    const SizedBox(height: 25),
+                    // Nutritional information card at the bottom
+                    const NutritionalInfoCard(),
+                  ],
+                ),
               ),
             ),
+    );
+  }
+}
+
+class NutritionalInfoCard extends StatelessWidget {
+  const NutritionalInfoCard({Key? key}) : super(key: key);
+
+  Widget buildNutritionalRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Nutritional Information',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            buildNutritionalRow('Additive', 'E255'),
+            buildNutritionalRow('Fat per 100g', '12g'),
+            buildNutritionalRow('Sugar per 100g', '8g'),
+            buildNutritionalRow('Salt per 100g', '1.2g'),
+            buildNutritionalRow('Sodium per 100g', '480mg'),
+            buildNutritionalRow('Energy per 100g', '220 kcal'),
+            buildNutritionalRow('Protein per 100g', '3.5g'),
+            buildNutritionalRow('Fibre per 100g', '4g'),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -13,7 +13,7 @@ class AppNameTextWidget extends StatelessWidget {
       baseColor: Colors.purple,
       highlightColor: Colors.red,
       child: TitlesTextWidget(
-        label: "Shop Smart",
+        label: "ConsomSafe",
         fontSize: fontSize,
       ),
     );

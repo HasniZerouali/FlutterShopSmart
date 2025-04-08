@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_users/constants/app_constants.dart';
 import 'package:shopsmart_users/providers/product_provider.dart';
+import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
 import 'package:shopsmart_users/services/assets_manager.dart';
 import 'package:shopsmart_users/widgets/app_name_text.dart';
+import 'package:shopsmart_users/widgets/pridact_safe.dart';
 import 'package:shopsmart_users/widgets/products/ctg_rounded_widget.dart';
 import 'package:shopsmart_users/widgets/products/latest_arrival.dart';
 import 'package:shopsmart_users/widgets/title_text.dart';
@@ -39,6 +41,15 @@ class HomeScreen extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      FoodPredictionPage.routeName,
+                      // arguments: getCurrProduct.productId,
+                    );
+                  },
+                  child: Text("model")),
               SizedBox(
                 height: size.height * 0.24,
                 child: ClipRRect(

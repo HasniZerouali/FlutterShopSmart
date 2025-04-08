@@ -5,6 +5,7 @@ import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 import 'package:shopsmart_users/providers/cart_provider.dart';
 import 'package:shopsmart_users/providers/product_provider.dart';
+import 'package:shopsmart_users/providers/user_provider.dart';
 import 'package:shopsmart_users/providers/wishlist_provider.dart';
 import 'package:shopsmart_users/screens/cart/cart_screen.dart';
 import 'package:shopsmart_users/screens/home_screen.dart';
@@ -46,15 +47,22 @@ class _RootScreenState extends State<RootScreen> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final wishlistProvider =
         Provider.of<WishlistProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     try {
       Future.wait(
-        {productProvider.fetchProducts()},
+        {
+          productProvider.fetchProducts(),
+          userProvider.fetchUserInfo(),
+          //"userProvider..." hdi zdtha bach fal fnc ta3 "placeOrder" min nrslo ism user lal firebase najmo na9oh labra mazal madrakch 3la profileScreen
+        },
       );
       //futrue.wait lmlih fiha tnjm dir dkhal fiha ch3l mn whda wt9ara3lhom ga3 mchi balwahd  , hadi mliha bach tsara3lk l application
       //  cart tasha9 9blha product  lihada ndiroha moraha min tkml , tbda ta3 cart
       Future.wait({
         cartProvider.fetchCart(),
-        wishlistProvider.fetchWishlist(),//ndiro wich hnaya khtrch ta3tamad 3la productProvider tama hata ykamal tbda hadi
+        wishlistProvider
+            .fetchWishlist(), //ndiro wich hnaya khtrch ta3tamad 3la productProvider tama hata ykamal tbda hadi
       });
     } catch (error) {
       log(error.toString());

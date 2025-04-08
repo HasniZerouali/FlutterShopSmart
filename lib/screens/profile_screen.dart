@@ -228,6 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         isError: false,
                         fct: () async {
                           await FirebaseAuth.instance.signOut();
+                          // await GoogleSignIn().signOut();
                           if (!mounted)
                             return; //hadi tzidha 3la jal tahdir li fal Navigator , tnajam dir fi blasatha "addPostFrameCallback" mofida lal await
                           await Navigator.pushReplacementNamed(

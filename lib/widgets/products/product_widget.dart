@@ -74,6 +74,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
                   const SizedBox(height: 15),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         flex: 5,

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shopsmart_users/constants/theme_data.dart';
 import 'package:shopsmart_users/providers/cart_provider.dart';
+import 'package:shopsmart_users/providers/order_provider.dart';
 import 'package:shopsmart_users/providers/product_provider.dart';
 import 'package:shopsmart_users/providers/theme_provider.dart';
 import 'package:shopsmart_users/providers/user_provider.dart';
@@ -18,6 +19,7 @@ import 'package:shopsmart_users/screens/inner_screens/product_details.dart';
 import 'package:shopsmart_users/screens/inner_screens/viewed_recently.dart';
 import 'package:shopsmart_users/screens/inner_screens/wishlist.dart';
 import 'package:shopsmart_users/screens/search_screen.dart';
+import 'package:shopsmart_users/widgets/pridact_safe.dart';
 import 'package:shopsmart_users/widgets/rotating_Indicator_widget.dart';
 
 void main() {
@@ -83,6 +85,11 @@ class MyApp extends StatelessWidget {
                   return UserProvider();
                 },
               ),
+              ChangeNotifierProvider(
+                create: (_) {
+                  return OrdersProvider();
+                },
+              ),
             ],
 
             //Consumer min tkon widget wahda tatsama3 ela tarayoro=)
@@ -92,7 +99,7 @@ class MyApp extends StatelessWidget {
             child: Consumer<ThemeProvider>(
               builder: (context, themeProvider, child) {
                 return MaterialApp(
-                  title: "Shop Smart AR",
+                  title: "ConsoSafe",
                   theme: Styles.themeData(
                       isDarkTheme: themeProvider.getIsDarkTheme,
                       context: context),
@@ -111,6 +118,8 @@ class MyApp extends StatelessWidget {
                     RootScreen.routName: (context) => const RootScreen(),
                     OrdersScreenFree.routeName: (context) =>
                         const OrdersScreenFree(),
+                    FoodPredictionPage.routeName: (context) =>
+                        FoodPredictionPage(),
                     ForgotPasswordScreen.routeName: (context) =>
                         const ForgotPasswordScreen(),
                     RegisterScreen.routName: (context) =>
